@@ -23,6 +23,7 @@ void read_file(char *filename, image *img);
 void write_file(char *filename, image *img);
 void invert_pixels(image *img);
 void grayscale(image *img);
+void sepia(image *img);
 void apply_filter(image *img, float *matrix);
 void getSmoothMatrix (float matrix[9]);
 void getBlurMatrix (float matrix[9]);

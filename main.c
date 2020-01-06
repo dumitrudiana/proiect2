@@ -5,13 +5,42 @@ int main (int argc, char **argv) {
 	srand(time(0));
 
 	if (argc != 3) {
-		printf("Numele imaginii si numarul de filtre trebuie date ca parametru.");
+		printf("Numele imaginii si filtrul / numarul de filtre trebuie date ca parametru.");
 		exit(0);
 	}
 
 	char out[100] = "out_";
 	strcat(out, argv[1]);
-	int filters = atoi(argv[2]);
+	int filters, filter;
+
+    if (strcmp(argv[2], "invert") == 0) {
+        filters = 1;
+        filter = 0;
+    } else if (strcmp(argv[2], "smooth") == 0) {
+        filters = 1;
+        filter = 1;
+    } else if (strcmp(argv[2], "blur") == 0) {
+        filters = 1;
+        filter = 2;
+    } else if (strcmp(argv[2], "sharpen") == 0) {
+        filters = 1;
+        filter = 3;
+    } else if (strcmp(argv[2], "mean") == 0) {
+        filters = 1;
+        filter = 4;
+    } else if (strcmp(argv[2], "emboss") == 0) {
+        filters = 1;
+        filter = 5;
+    } else if (strcmp(argv[2], "grayscale") == 0) {
+        filters = 1;
+        filter = 6;
+    } else if (strcmp(argv[2], "sepia") == 0) {
+        filters = 1;
+        filter = 7;
+    } else {
+        filters = atoi(argv[2]);
+        filter = rand() % NUM_FILTERS;
+    }
 
 	read_file(argv[1], &img);
 
@@ -24,8 +53,6 @@ int main (int argc, char **argv) {
 	getEmbossMatrix(emboss);
 
 	for (int i = 0; i < filters; i++) {
-		int filter = rand() % NUM_FILTERS;
-
 		switch(filter) {
 			case 0:
 				invert_pixels(&img);
@@ -53,7 +80,12 @@ int main (int argc, char **argv) {
 			case 6:
 			    grayscale(&img);
 			    break;
+			case 7:
+			    sepia(&img);
+			    break;
 		}
+
+		filter = rand() % NUM_FILTERS;
 	}
 
 	write_file(out, &img);

@@ -41,6 +41,14 @@ void grayscale(image *img) {
     }
 }
 
+void sepia(image *img) {
+    for (int i = 0; i < img->height * img->width; i++) {
+        img->matrix[i].r = (img->matrix[i].r * .393 + img->matrix[i].g * 769 + img->matrix[i].b * 189);
+        img->matrix[i].g = (img->matrix[i].r * .349 + img->matrix[i].g * 686 + img->matrix[i].b * 168);
+        img->matrix[i].b = (img->matrix[i].r * .272 + img->matrix[i].g * 534 + img->matrix[i].b * 131);
+    }
+}
+
 void apply_filter(image *img, float *matrix) {
 	pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
 
