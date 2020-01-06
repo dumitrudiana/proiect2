@@ -64,7 +64,7 @@ void sepia(image *img) {
     }
 }
 
-void sketch (image *img) {
+void sketch (image *img, float matrix[KERNEL]) {
     pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
 
     grayscale(img);
@@ -74,7 +74,7 @@ void sketch (image *img) {
          mat[i].b = img->matrix[i].b;
     }
     invert_pixels(img);
-    blur(img);
+    apply_filter(img, matrix);
 
     for(int i = 0; i < img->height * img->width; i++) {
         int red = img->matrix[i].r * 255 / (255 - mat[i].r);

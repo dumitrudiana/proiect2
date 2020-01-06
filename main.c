@@ -78,7 +78,8 @@ int main (int argc, char **argv) {
 			    sepia(&img);
 			    break;
 			case 8:
-			    sketch(&img);
+			    matrix = blur;
+			    sketch(&img, matrix);
 			    break;
 		}
 
