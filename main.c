@@ -5,7 +5,7 @@ int main (int argc, char **argv) {
 	srand(time(0));
 
 	if (argc != 3) {
-		printf("Numele imaginii si numarul de filtre trebuie date ca parametru. Exemplu: ./serial file1.pnm 4\n");
+		printf("Numele imaginii si numarul de filtre trebuie date ca parametru.");
 		exit(0);
 	}
 
@@ -50,6 +50,9 @@ int main (int argc, char **argv) {
 				matrix = emboss;
 				apply_filter(&img, matrix);
 				break;
+			case 6:
+			    grayscale(&img);
+			    break;
 		}
 	}
 

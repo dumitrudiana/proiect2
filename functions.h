@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define invert(x) 255 - x
-#define NUM_FILTERS 6
+#define NUM_FILTERS 7
 #define KERNEL 9
 
 typedef struct {

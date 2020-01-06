@@ -33,6 +33,14 @@ void invert_pixels(image *img) {
 	}
 }
 
+void grayscale(image *img) {
+    for (int i = 0; i < img->height * img->width; i++) {
+        img->matrix[i].r = (img->matrix[i].r + img->matrix[i].g + img->matrix[i].b)/3;
+        img->matrix[i].g = img->matrix[i].r;
+        img->matrix[i].b = img->matrix[i].r;
+    }
+}
+
 void apply_filter(image *img, float *matrix) {
 	pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
 
