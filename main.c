@@ -11,32 +11,26 @@ int main (int argc, char **argv) {
 
 	char out[100] = "out_";
 	strcat(out, argv[1]);
-	int filters, filter;
+	int filters = 1, filter;
 
     if (strcmp(argv[2], "invert") == 0) {
-        filters = 1;
         filter = 0;
     } else if (strcmp(argv[2], "smooth") == 0) {
-        filters = 1;
         filter = 1;
     } else if (strcmp(argv[2], "blur") == 0) {
-        filters = 1;
         filter = 2;
     } else if (strcmp(argv[2], "sharpen") == 0) {
-        filters = 1;
         filter = 3;
     } else if (strcmp(argv[2], "mean") == 0) {
-        filters = 1;
         filter = 4;
     } else if (strcmp(argv[2], "emboss") == 0) {
-        filters = 1;
         filter = 5;
     } else if (strcmp(argv[2], "grayscale") == 0) {
-        filters = 1;
         filter = 6;
     } else if (strcmp(argv[2], "sepia") == 0) {
-        filters = 1;
         filter = 7;
+    } else if (strcmp(argv[2], "sketch") == 0) {
+        filter = 8;
     } else {
         filters = atoi(argv[2]);
         filter = rand() % NUM_FILTERS;
@@ -82,6 +76,9 @@ int main (int argc, char **argv) {
 			    break;
 			case 7:
 			    sepia(&img);
+			    break;
+			case 8:
+			    sketch(&img);
 			    break;
 		}
 

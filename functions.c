@@ -43,9 +43,10 @@ void grayscale(image *img) {
 
 void sepia(image *img) {
     for (int i = 0; i < img->height * img->width; i++) {
-        unsigned char red = (img->matrix[i].r * .393 + img->matrix[i].g * 769 + img->matrix[i].b * 189);
-        unsigned char green = (img->matrix[i].r * .349 + img->matrix[i].g * 686 + img->matrix[i].b * 168);
-        unsigned char blue = (img->matrix[i].r * .272 + img->matrix[i].g * 534 + img->matrix[i].b * 131);
+        int red = (img->matrix[i].r * 0.393 + img->matrix[i].g * 0.769 + img->matrix[i].b * 0.189);
+        int green = (img->matrix[i].r * 0.349 + img->matrix[i].g * 0.686 + img->matrix[i].b * 0.168);
+        int blue = (img->matrix[i].r * 0.272 + img->matrix[i].g * 0.534 + img->matrix[i].b * 0.131);
+
         if (red > 255)
             img->matrix[i].r = 255;
         else
@@ -60,6 +61,39 @@ void sepia(image *img) {
             img->matrix[i].b = 255;
         else
             img->matrix[i].b = blue;
+    }
+}
+
+void sketch (image *img) {
+    pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
+
+    grayscale(img);
+    for (int i = 0; i < img->height * img->width; i++) {
+         mat[i].r = img->matrix[i].r;
+         mat[i].g = img->matrix[i].g;
+         mat[i].b = img->matrix[i].b;
+    }
+    invert_pixels(img);
+    blur(img);
+
+    for(int i = 0; i < img->height * img->width; i++) {
+        int red = img->matrix[i].r * 255 / (255 - mat[i].r);
+        if(red > 255 || mat[i].r == 255)
+            img->matrix[i].r = 255;
+        else
+            img->matrix[i].r = red;
+
+        int green = img->matrix[i].g * 255 / (255 - mat[i].g);
+            if(green > 255 || mat[i].g == 255)
+                img->matrix[i].g = 255;
+            else
+                img->matrix[i].g = green;
+
+        int blue = img->matrix[i].b * 255 / (255 - mat[i].b);
+            if(blue > 255 || mat[i].b == 255)
+                img->matrix[i].b = 255;
+            else
+                img->matrix[i].b = blue;
     }
 }
 
