@@ -41,7 +41,7 @@ int main (int argc, char **argv) {
 	read_file(argv[1], &img);
 
 	float *matrix;
-	float smooth[9], blur[9], sharpen[9], mean[9], emboss[9];
+	float smooth[KERNEL], blur[KERNEL], sharpen[KERNEL], mean[KERNEL], emboss[KERNEL];
 	getSmoothMatrix(smooth);
 	getBlurMatrix(blur);
 	getSharpenMatrix(sharpen);

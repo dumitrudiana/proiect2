@@ -105,23 +105,26 @@ void sketch (image *img, float matrix[KERNEL], int color) {
 void apply_filter(image *img, float *matrix) {
 	pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
 
-	for (int i = 0; i < img->height * img->width; i++) {
-		if (i % img->width == 0 || i % img->width == img->width - 1 ||
-			i < img->width || i > (img->height-1) * img->width) {
-			mat[i] = img->matrix[i];
-		} else {
-			float sumr = 0, sumg = 0, sumb = 0;
-			for (int j = 0; j < KERNEL; j++) {
-			    int index = i + img->width * (j/3 - 1) + (j%3 - 1);
-				sumr += matrix[j] * img->matrix[index].r;
-				sumg += matrix[j] * img->matrix[index].g;
-				sumb += matrix[j] * img->matrix[index].b;
-			}
+	for (int i = 0; i < img->height; i++) {
+	    for (int j = 0; j < img->width; j++) {
+	        if (i == 0 || j == 0 || i == img->height - 1 || j == img->width - 1) {
+	            mat[i * img->width + j] = img->matrix[i * img->width + j];
+	            continue;
+	        }
 
-			mat[i].r = (unsigned char)sumr;
-			mat[i].g = (unsigned char)sumg;
-			mat[i].b = (unsigned char)sumb;
-		}
+	        float sumr = 0.0f, sumg = 0.0f, sumb = 0.0f;
+
+	        for (int k = 0; k < KERNEL; k++) {
+	            int index = (i + k/3 - 1) * img->width + (j + k%3 - 1);
+            	sumr += matrix[k] * (float)img->matrix[index].r;
+            	sumg += matrix[k] * (float)img->matrix[index].g;
+            	sumb += matrix[k] * (float)img->matrix[index].b;
+            }
+
+	        mat[i * img->width + j].r = (unsigned char)sumr;
+            mat[i * img->width + j].g = (unsigned char)sumg;
+            mat[i * img->width + j].b = (unsigned char)sumb;
+	    }
 	}
 
 	free(img->matrix);
