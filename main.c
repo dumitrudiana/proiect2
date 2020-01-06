@@ -31,6 +31,8 @@ int main (int argc, char **argv) {
         filter = 7;
     } else if (strcmp(argv[2], "sketch") == 0) {
         filter = 8;
+    } else if (strcmp(argv[2], "color_sketch") == 0) {
+        filter = 9;
     } else {
         filters = atoi(argv[2]);
         filter = rand() % NUM_FILTERS;
@@ -80,6 +82,10 @@ int main (int argc, char **argv) {
 			case 8:
 			    matrix = blur;
 			    sketch(&img, matrix);
+			    break;
+			case 9:
+			    matrix = blur;
+			    color_sketch(&img, matrix);
 			    break;
 		}
 

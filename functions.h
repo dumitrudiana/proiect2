@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define invert(x) 255 - x
-#define NUM_FILTERS 9
+#define NUM_FILTERS 10
 #define KERNEL 9
 
 typedef struct {
@@ -25,6 +25,7 @@ void invert_pixels(image *img);
 void grayscale(image *img);
 void sepia(image *img);
 void sketch(image *img, float matrix[KERNEL]);
+void color_sketch(image *img, float matrix[KERNEL]);
 void apply_filter(image *img, float *matrix);
 void getSmoothMatrix (float matrix[KERNEL]);
 void getBlurMatrix (float matrix[KERNEL]);
