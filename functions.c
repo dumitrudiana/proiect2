@@ -43,9 +43,23 @@ void grayscale(image *img) {
 
 void sepia(image *img) {
     for (int i = 0; i < img->height * img->width; i++) {
-        img->matrix[i].r = (img->matrix[i].r * .393 + img->matrix[i].g * 769 + img->matrix[i].b * 189);
-        img->matrix[i].g = (img->matrix[i].r * .349 + img->matrix[i].g * 686 + img->matrix[i].b * 168);
-        img->matrix[i].b = (img->matrix[i].r * .272 + img->matrix[i].g * 534 + img->matrix[i].b * 131);
+        unsigned char red = (img->matrix[i].r * .393 + img->matrix[i].g * 769 + img->matrix[i].b * 189);
+        unsigned char green = (img->matrix[i].r * .349 + img->matrix[i].g * 686 + img->matrix[i].b * 168);
+        unsigned char blue = (img->matrix[i].r * .272 + img->matrix[i].g * 534 + img->matrix[i].b * 131);
+        if (red > 255)
+            img->matrix[i].r = 255;
+        else
+            img->matrix[i].r = red;
+
+        if (green > 255)
+            img->matrix[i].g = 255;
+        else
+            img->matrix[i].g = green;
+
+        if (blue > 255)
+            img->matrix[i].b = 255;
+        else
+            img->matrix[i].b = blue;
     }
 }
 
@@ -59,9 +73,10 @@ void apply_filter(image *img, float *matrix) {
 		} else {
 			float sumr = 0, sumg = 0, sumb = 0;
 			for (int j = 0; j < KERNEL; j++) {
-				sumr += matrix[j] * img->matrix[i+j].r;
-				sumg += matrix[j] * img->matrix[i+j].g;
-				sumb += matrix[j] * img->matrix[i+j].b;
+			    int index = i + img->width * (j/3 - 1) + (j%3 - 1);
+				sumr += matrix[j] * img->matrix[index].r;
+				sumg += matrix[j] * img->matrix[index].g;
+				sumb += matrix[j] * img->matrix[index].b;
 			}
 
 			mat[i].r = (unsigned char)sumr;
