@@ -81,11 +81,11 @@ int main (int argc, char **argv) {
 			    break;
 			case 8:
 			    matrix = blur;
-			    sketch(&img, matrix);
+			    sketch(&img, matrix, 0);
 			    break;
 			case 9:
 			    matrix = blur;
-			    color_sketch(&img, matrix);
+			    sketch(&img, matrix, 1);
 			    break;
 		}
 

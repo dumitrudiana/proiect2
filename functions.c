@@ -64,41 +64,11 @@ void sepia(image *img) {
     }
 }
 
-void sketch (image *img, float matrix[KERNEL]) {
+void sketch (image *img, float matrix[KERNEL], int color) {
     pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
 
-    grayscale(img);
-    for (int i = 0; i < img->height * img->width; i++) {
-         mat[i].r = img->matrix[i].r;
-         mat[i].g = img->matrix[i].g;
-         mat[i].b = img->matrix[i].b;
-    }
-    invert_pixels(img);
-    apply_filter(img, matrix);
-
-    for(int i = 0; i < img->height * img->width; i++) {
-        int red = (int)img->matrix[i].r * 255 / (255 - mat[i].r);
-        if(red > 255 || mat[i].r == 255)
-            img->matrix[i].r = 255;
-        else
-            img->matrix[i].r = red;
-
-        int green = (int)img->matrix[i].g * 255 / (255 - mat[i].g);
-            if(green > 255 || mat[i].g == 255)
-                img->matrix[i].g = 255;
-            else
-                img->matrix[i].g = green;
-
-        int blue = (int)img->matrix[i].b * 255 / (255 - mat[i].b);
-            if(blue > 255 || mat[i].b == 255)
-                img->matrix[i].b = 255;
-            else
-                img->matrix[i].b = blue;
-    }
-}
-
-void color_sketch (image *img, float matrix[KERNEL]) {
-    pixel *mat = (pixel*)malloc(img->height * img->width * sizeof(pixel));
+    if (color == 0)
+        grayscale(img);
 
     for (int i = 0; i < img->height * img->width; i++) {
          mat[i].r = img->matrix[i].r;
@@ -109,23 +79,26 @@ void color_sketch (image *img, float matrix[KERNEL]) {
     apply_filter(img, matrix);
 
     for(int i = 0; i < img->height * img->width; i++) {
-        int red = (int)img->matrix[i].r * 255 / (255 - mat[i].r);
-        if(red > 255 || mat[i].r == 255)
+        if (mat[i].r == 255) {
             img->matrix[i].r = 255;
-        else
-            img->matrix[i].r = red;
+        } else {
+            int red = 255 * img->matrix[i].r / (255 - mat[i].r);
+            img->matrix[i].r = (red > 255) ? 255 : red;
+        }
 
-        int green = (int)img->matrix[i].g * 255 / (255 - mat[i].g);
-            if(green > 255 || mat[i].g == 255)
-                img->matrix[i].g = 255;
-            else
-                img->matrix[i].g = green;
+        if (mat[i].g == 255) {
+            img->matrix[i].g = 255;
+        } else {
+            int green = 255 * img->matrix[i].g / (255 - mat[i].g);
+            img->matrix[i].g = (green > 255) ? 255 : green;
+        }
 
-        int blue = (int)img->matrix[i].b * 255 / (255 - mat[i].b);
-            if(blue > 255 || mat[i].b == 255)
-                img->matrix[i].b = 255;
-            else
-                img->matrix[i].b = blue;
+        if (mat[i].b == 255) {
+            img->matrix[i].b = 255;
+        } else {
+            int blue = 255 * img->matrix[i].b / (255 - mat[i].b);
+            img->matrix[i].b = (blue > 255) ? 255 : blue;
+        }
     }
 }
 
